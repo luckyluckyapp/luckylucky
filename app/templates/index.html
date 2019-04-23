@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <head>
+        <title>Lucky Lucky Ordering System</title>
+    </head>
+    <body>
+        <hr>
+        
+        <h3>Time :</h3>
+        <script>
+        function startTime() {
+          var today = new Date();
+          var h = today.getHours();
+          var m = today.getMinutes();
+          var s = today.getSeconds();
+          
+          m = checkTime(m);
+          s = checkTime(s);
+          document.getElementById('txt').innerHTML =
+          today.toDateString() + ";  Current Time: " + h + ":" + m + ":" + s;
+          var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+          if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+          return i;
+        }
+        </script>
+        </head>
+
+        <body onload="startTime()">
+
+        <div id="txt"></div>
+
+        <hr> 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+        .tg td{width: 100px;font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+        .tg th{width: 100px; font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+        .tg .tg-pe1m{font-weight:bold;font-size:18px;text-align:left;vertical-align:top}
+        .tg .tg-0lax{text-align:left;vertical-align:top}
+        </style>
+        <table class="tg">
+          <tr>
+            <th class="tg-pe1m">Monday</th>
+            <th class="tg-pe1m">Tuesday</th>
+            <th class="tg-pe1m">Wednesday</th>
+            <th class="tg-pe1m">Thursday</th>
+            <th class="tg-pe1m">Friday</th>
+          </tr>
+          <tr>
+            <td class="tg-0lax">{{ mon1 }}</td>
+            <td class="tg-0lax">{{ tue1 }}</td>
+            <td class="tg-0lax">{{ wed1 }}</td>
+            <td class="tg-0lax">{{ thur1 }}</td>
+            <td class="tg-0lax">{{ fri1 }}</td>
+          </tr>
+        </table>
+                 
+        <hr>
+    	
+        <h3>Today's Dish : {{ dish }}</h3>
+    </body>
+    <hr>
+    <h3>Order Form</h3>
+    Type in your name and indicate your quantity to order. For special requests, please call Jordan. Orders are closed by <u><b>11:15 am</b></u>.
+
+    <hr>
+
+        
+    <div class="formwrapper">
+      <form method=post>
+        <div class="name">
+          {{ form.name.label }} {{ form.name(placeholder='Jordan Jordan') }} 
+          {% if form.name.errors %}
+            <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <div class="numpacks">
+          {{ form.numpacks.label }} {{ form.numpacks(placeholder='1 or 2 etc.') }} 
+          {% if form.numpacks.errors %}
+            <ul class="errors">{% for error in form.numpacks.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <div class="submit">
+          <input id="submit" type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+    
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+{% endblock %}
