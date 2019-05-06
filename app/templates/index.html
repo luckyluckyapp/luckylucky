@@ -76,28 +76,18 @@
     Type in your name and indicate your quantity to order. For special requests, please call Jordan. Orders are closed by <u><b>11:15 am</b></u>.
 
     <hr>
-
-        
-    <div class="formwrapper">
-      <form method=post>
-        <div class="name">
-          {{ form.name.label }} {{ form.name(placeholder='Jordan Jordan') }} 
-          {% if form.name.errors %}
-            <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-          {% endif %}
-        </div>
-        <div class="numpacks">
-          {{ form.numpacks.label }} {{ form.numpacks(placeholder='1 or 2 etc.') }} 
-          {% if form.numpacks.errors %}
-            <ul class="errors">{% for error in form.numpacks.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-          {% endif %}
-        </div>
-        <div class="submit">
-          <input id="submit" type="submit" value="Submit">
-        </div>
-      </form>
-    </div>
-    
+    <form action="" method="post" novalidate>
+      <p>
+          {{ form.name.label }}<br>
+          {{ form.name(size=32) }}
+      </p>
+      <p>
+          {{ form.numpack.label }} (Enter number of packs in the textbox.)<br>
+          {{ form.numpack(size=32) }}
+      </p>
+      <button type="submit">Submit order</button>
+  </form>
+      
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
