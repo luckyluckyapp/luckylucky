@@ -10,7 +10,7 @@ from app import app, models
 # if __name__ == '__main__':
 #     app.run()
 
-from app.models import Orderform
+from app.models import Orderform, Orders
 
 aaa = req.get("http://www.luckyluckycatering.com/lunch-menu")
 soup = BeautifulSoup(aaa.text,'html.parser')
@@ -22,6 +22,7 @@ fri =re.findall("Friday:[^.]*\.", aaa.text)[0]
 
 day = datetime.datetime.utcnow() + datetime.timedelta(hours=+8)
 wday = day.weekday()
+todaysdate = day.strftime("%Y-%m-%d")
 
 db = SQLAlchemy(app)
 
@@ -49,14 +50,41 @@ def index(methods=['GET', 'POST']):
 	else:
 		dish1 = 'today no lucky lucky leh!'
 	
-	form = Orderform()
-	if request.method == 'POST':
-		user=form #load the model values
-		db.session.add(user) #gathers the session based data to be added in DB
-		db.session.commit() #Adds data to DB
-		flash('New order added!') #Display a message to end user at front end.
-		return redirect('/submitted') # redirects upon success to your homepage.
 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1, form=form)
+
+def addorder():
+	name=req.args.get('name')
+	numpack=req.args.get('numpack')
+	try:
+		order = Orders(
+			name=Name
+			numpack=numpack
+			date=todaysdate
+		)
+		db.session.add(order)
+		db.session.commit()
+		return "Thanks for your order, {}".format(order.name)
+	except Exception as e:
+		return(str(e))
+
+@app.route("/add/form",methods=['GET', 'POST'])
+def add_order_form():
+    if req.method == 'POST':
+        name=req.form.get('name')
+        author=req.form.get('numpack')
+        
+        try:
+            order=Orders(
+                name=name,
+                numpack=numpack,
+            )
+            db.session.add(order)
+            db.session.commit()
+            return "Thank you for your order, {}".format(order.name)
+        except Exception as e:
+            return(str(e))
+    return render_template("form.html")
+
 
 # def add_user():
 #     user = OrderForm(request.form['name']), request.form['numpacks']
@@ -81,3 +109,12 @@ def submitted():
 	# 	db.session.rollback()
 	# 	flash('There was a problem ordering. Please contact Jordan.')
 	# 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1, form=form)
+
+
+	# form = Orderform()
+	# if request.method == 'POST':
+	# 	user=form #load the model values
+	# 	db.session.add(user) #gathers the session based data to be added in DB
+	# 	db.session.commit() #Adds data to DB
+	# 	flash('New order added!') #Display a message to end user at front end.
+	# 	return redirect('/submitted') # redirects upon success to your homepage.

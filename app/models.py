@@ -12,8 +12,20 @@ class Orders(db.Model):
     numpack = db.Column(db.String(64), index=True, unique=False)
     date = todaysdate
 
+    def __init__(self, uid, name, numpack):
+        self.uid = uid
+        self.name = name
+        self.numpack = numpack
+    
     def __repr__(self):
         return '<User {}>'.format(self.name)  
+
+    def serialize(self):
+        return {
+            'uid': self.uid, 
+            'name': self.name,
+            'numpack': self.numpack
+        }
 
 class Orderform(ModelForm):
     class Meta:
