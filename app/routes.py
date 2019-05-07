@@ -71,7 +71,7 @@ def addorder():
 def add_order_form():
     if req.method == 'POST':
         name=req.form.get('name')
-        author=req.form.get('numpack')
+        numpack=req.form.get('numpack')
         
         try:
             order=Orders(
