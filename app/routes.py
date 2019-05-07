@@ -28,10 +28,10 @@ db = SQLAlchemy(app)
 
 from app.models import Orders
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
 
-def index(methods=['GET', 'POST']):
+def index(methods=['GET']):
 	mon1 =mon[7:]
 	tue1 =tue[8:]
 	wed1 =wed[10:]
@@ -54,23 +54,23 @@ def index(methods=['GET', 'POST']):
 	
 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1)
 
-@app.route("/add/form",methods=['GET', 'POST'])
+@app.route("/add/form", methods=['GET', 'POST'])
+
 def add_order_form():
-    if req.method == 'POST':
-        name=req.form.get('name')
-        numpack=req.form.get('numpack')
-        
-        try:
-            order=Orders(
-                name=name,
-                numpack=numpack,
-            )
-            db.session.add(order)
-            db.session.commit()
-            return "Thank you for your order, {}".format(order.name)
-        except Exception as e:
-            return(str(e))
-    return render_template("form.html")
+
+	if request.method == 'POST':
+		name = request.form.get('name')
+		numpack = request.form.get('numpack')
+
+	try:
+		order=Orders(name=name, numpack=numpack)
+		db.session.add(order)
+		db.session.commit()
+		return "Thank you for your order, {}".format(order.name)
+	except Exception as e:
+		return(str(e))
+	
+	return render_template("form.html")
 
 
 # def add_user():
@@ -120,3 +120,6 @@ def submitted():
 	# 	return "Thanks for your order, {}".format(order.name)
 	# except Exception as e:
 	# 	return(str(e))
+
+
+	### EDITSSS: changed form.html, routes and models. to settle local var reference before assignment. settle uid and date columns

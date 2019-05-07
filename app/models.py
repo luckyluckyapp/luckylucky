@@ -10,13 +10,12 @@ class Orders(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=False)
     numpack = db.Column(db.String(64), index=True, unique=False)
-    date = todaysdate
 
     def __init__(self, uid, name, numpack):
         self.uid = uid
         self.name = name
         self.numpack = numpack
-    
+            
     def __repr__(self):
         return '<User {}>'.format(self.name)  
 
