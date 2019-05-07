@@ -57,7 +57,7 @@ def addorder():
 	numpack=req.args.get('numpack')
 	try:
 		order = Orders(
-			name=Name
+			name=name
 			numpack=numpack
 			date=todaysdate
 		)
