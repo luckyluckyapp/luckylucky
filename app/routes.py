@@ -52,7 +52,7 @@ def index(methods=['GET', 'POST']):
 	else:
 		dish1 = 'today no lucky lucky leh!'
 	
-	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1, form=form)
+	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1)
 
 @app.route("/add/form",methods=['GET', 'POST'])
 def add_order_form():
