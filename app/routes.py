@@ -54,20 +54,6 @@ def index(methods=['GET', 'POST']):
 	
 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1, form=form)
 
-def addorder():
-	name = req.args.get('name')
-	numpack = req.args.get('numpack')
-	try:
-		order = Orders(
-			name=name
-			numpack=numpack
-			)
-		db.session.add(order)
-		db.session.commit()
-		return "Thanks for your order, {}".format(order.name)
-	except Exception as e:
-		return(str(e))
-
 @app.route("/add/form",methods=['GET', 'POST'])
 def add_order_form():
     if req.method == 'POST':
@@ -119,3 +105,18 @@ def submitted():
 	# 	db.session.commit() #Adds data to DB
 	# 	flash('New order added!') #Display a message to end user at front end.
 	# 	return redirect('/submitted') # redirects upon success to your homepage.
+
+
+	# def addorder():
+	# name = req.args.get('name')
+	# numpack = req.args.get('numpack')
+	# try:
+	# 	order = Orders(
+	# 		name=name
+	# 		numpack=numpack
+	# 		)
+	# 	db.session.add(order)
+	# 	db.session.commit()
+	# 	return "Thanks for your order, {}".format(order.name)
+	# except Exception as e:
+	# 	return(str(e))
