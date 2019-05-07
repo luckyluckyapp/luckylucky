@@ -12,7 +12,7 @@ migrate = Migrate(app,db)
 
 from app import routes, models
 
-from models import Orders
+from app.models import Orders
 # def create_app(config_class=Config):
 #     # ...
 #     app = Flask(__name__)
