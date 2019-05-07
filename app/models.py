@@ -26,7 +26,3 @@ class Orders(db.Model):
             'name': self.name,
             'numpack': self.numpack
         }
-
-class Orderform(ModelForm):
-    class Meta:
-        model = Orders

@@ -10,7 +10,7 @@ from app import app, models
 # if __name__ == '__main__':
 #     app.run()
 
-from app.models import Orderform, Orders
+
 
 aaa = req.get("http://www.luckyluckycatering.com/lunch-menu")
 soup = BeautifulSoup(aaa.text,'html.parser')
@@ -25,6 +25,8 @@ wday = day.weekday()
 todaysdate = day.strftime("%Y-%m-%d")
 
 db = SQLAlchemy(app)
+
+from app.models import Orders
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -53,14 +55,13 @@ def index(methods=['GET', 'POST']):
 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1, form=form)
 
 def addorder():
-	name=req.args.get('name')
-	numpack=req.args.get('numpack')
+	name = req.args.get('name')
+	numpack = req.args.get('numpack')
 	try:
 		order = Orders(
 			name=name
 			numpack=numpack
-			date=todaysdate
-		)
+			)
 		db.session.add(order)
 		db.session.commit()
 		return "Thanks for your order, {}".format(order.name)
