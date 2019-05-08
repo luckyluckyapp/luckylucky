@@ -73,20 +73,8 @@ def index(methods=['GET']):
 
 @app.route('/form', methods=['GET', 'POST'])
 def add_order_form():
-	dish2 = ''
-	dish2 = ''
-	if wday == 0:
-		dish2 = mon
-	elif wday == 1:
-		dish2 = tue
-	elif wday == 2:
-		dish2 = wed
-	elif wday == 3:
-		dish2 = thur
-	elif wday == 4:
-		dish2 = fri
-	else:
-		dish2 = 'today no lucky lucky leh!'
+	dish2 = dish2
+	
 	ts = int(time.time())
 	if request.method == 'POST':
 		uid = ts
@@ -115,7 +103,7 @@ def submitted():
 		name=''
 	return render_template('submitted.html', name=name)
 
-@app.route("/getall")
+@app.route('/getall')
 def get_all():
     try:
         orders=Orders.query.all()
