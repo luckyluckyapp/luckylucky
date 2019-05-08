@@ -23,27 +23,19 @@ todaysdate = day.strftime("%Y-%m-%d")
 db = SQLAlchemy(app)
 
 from app.models import Orders
-
-# global dish
-mon1 =mon[7:]
-tue1 =tue[8:]
-wed1 =wed[10:]
-thur1=thur[9:]
-fri1=fri[7:]
-
-dish2 = ''
+dishx = ''
 if wday == 0:
-	dish2 = mon
+	dishx = mon
 elif wday == 1:
-	dish2 = tue
+	dishx = tue
 elif wday == 2:
-	dish2 = wed
+	dishx = wed
 elif wday == 3:
-	dish2 = thur
+	dishx = thur
 elif wday == 4:
-	dish2 = fri
+	dishx = fri
 else:
-	dish2 = 'today no lucky lucky leh!'
+	dishx = 'today no lucky lucky leh!'
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
@@ -73,8 +65,7 @@ def index(methods=['GET']):
 
 @app.route('/form', methods=['GET', 'POST'])
 def add_order_form():
-	dish2 = dish2
-	
+	dish1 = dishx
 	ts = int(time.time())
 	if request.method == 'POST':
 		uid = ts
@@ -93,7 +84,7 @@ def add_order_form():
 			return render_template('submitted.html', name=name)
 		except Exception as e:
 			return(str(e))
-	return render_template('form.html', dish=dish2)
+	return render_template('form.html', dish2=dish1)
 
 @app.route('/submitted')
 def submitted():
