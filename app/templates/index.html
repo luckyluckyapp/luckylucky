@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-
     <head>
         <title>Lucky Lucky Ordering System</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     </head>
     <body>
         <hr>
@@ -76,6 +77,9 @@
     Type in your name and indicate your quantity to order. For special requests, please call Jordan. Orders are closed by <u><b>11:15 am</b></u>.
 
     <hr>
+    <form action="/form">
+      <input type="submit" value="Click to order!" />
+    </form>
           
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">

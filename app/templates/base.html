@@ -5,9 +5,13 @@
       {% else %}
       <title>Lucky Lucky Ordering System</title>
       {% endif %}
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+        <style>head{padding: 30px}
+                body{padding: 30px}</style>
     </head>
     <body>
-        <div>Navigation: <a href="/index">Order</a></div>
+        <div>Navigation: <a href="/index">Home</a> <a href="/form">Order Form</a></div>
     <hr>
     <h2>Lucky Lucky Ordering System</h2>
     {% with messages = get_flashed_messages() %}

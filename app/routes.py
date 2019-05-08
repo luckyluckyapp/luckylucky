@@ -1,15 +1,11 @@
-from flask import render_template, flash, redirect, request, Flask, url_for
+from flask import render_template, flash, redirect, request, Flask, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from bs4 import BeautifulSoup
 import requests as req
 import re
 import datetime
 from app import app, models
-
-
-# if __name__ == '__main__':
-#     app.run()
-
+import time
 
 
 aaa = req.get("http://www.luckyluckycatering.com/lunch-menu")
@@ -27,6 +23,27 @@ todaysdate = day.strftime("%Y-%m-%d")
 db = SQLAlchemy(app)
 
 from app.models import Orders
+
+# global dish
+mon1 =mon[7:]
+tue1 =tue[8:]
+wed1 =wed[10:]
+thur1=thur[9:]
+fri1=fri[7:]
+
+dish2 = ''
+if wday == 0:
+	dish2 = mon
+elif wday == 1:
+	dish2 = tue
+elif wday == 2:
+	dish2 = wed
+elif wday == 3:
+	dish2 = thur
+elif wday == 4:
+	dish2 = fri
+else:
+	dish2 = 'today no lucky lucky leh!'
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
@@ -54,72 +71,43 @@ def index(methods=['GET']):
 	
 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1)
 
-@app.route("/add/form", methods=['GET', 'POST'])
+@app.route("/form", methods=['GET', 'POST'])
 
 def add_order_form():
-
+	ts = int(time.time())
 	if request.method == 'POST':
-		name = request.form.get('name')
-		numpack = request.form.get('numpack')
-
-	try:
-		order=Orders(name=name, numpack=numpack)
-		db.session.add(order)
-		db.session.commit()
-		return "Thank you for your order, {}".format(order.name)
-	except Exception as e:
-		return(str(e))
-	
-	return render_template("form.html")
-
-
-# def add_user():
-#     user = OrderForm(request.form['name']), request.form['numpacks']
-#     db.session.add(user)
-#     db.sessom.commit()
-#     return redirect(url_for('/submitted'))
+		uid = ts
+		name=request.form.get('name')
+		numpack=request.form.get('numpack')
+		date=todaysdate
+		try:
+			order1=Orders(
+			uid=uid,
+			name=name,
+			numpack=numpack,
+			date=date
+			)
+			db.session.add(order1)
+			db.session.commit()
+			return render_template('submitted.html', name=name)
+		except Exception as e:
+			return(str(e))
+	return render_template('form.html', dish=dish2)
 
 @app.route('/submitted')
 def submitted():
-	return render_template('submitted.html')
+	try:
+		name=request.form.get('name')
+	except:
+		name=''
+	return render_template('submitted.html', name=name)
 
-	# try:
-	# 	if form_validate_on_submit():
-	# 		user=Orderform() #load the model values
-	# 		form.populate_obj(Orderform) #populates the form with respective values 
-	# 		db.session.add(form) #gathers the session based data to be added in DB
-	# 		db.session.commit() #Adds data to DB
-	# 		flash('New order added!') #Display a message to end user at front end.
-	# 		return redirect('/submitted') # redirects upon success to your homepage.
-	# except Exception as e:
-	# 	# logs the errors
-	# 	db.session.rollback()
-	# 	flash('There was a problem ordering. Please contact Jordan.')
-	# 	return render_template('index.html', dish=dish1, mon1=mon1, tue1=tue1, wed1=wed1, thur1=thur1, fri1=fri1, form=form)
+@app.route("/getall")
+def get_all():
+    try:
+        orders=Orders.query.all()
+        return  jsonify([e.serialize() for e in orders])
+    except Exception as e:
+	    return(str(e))
 
-
-	# form = Orderform()
-	# if request.method == 'POST':
-	# 	user=form #load the model values
-	# 	db.session.add(user) #gathers the session based data to be added in DB
-	# 	db.session.commit() #Adds data to DB
-	# 	flash('New order added!') #Display a message to end user at front end.
-	# 	return redirect('/submitted') # redirects upon success to your homepage.
-
-
-	# def addorder():
-	# name = req.args.get('name')
-	# numpack = req.args.get('numpack')
-	# try:
-	# 	order = Orders(
-	# 		name=name
-	# 		numpack=numpack
-	# 		)
-	# 	db.session.add(order)
-	# 	db.session.commit()
-	# 	return "Thanks for your order, {}".format(order.name)
-	# except Exception as e:
-	# 	return(str(e))
-
-
-	### EDITSSS: changed form.html, routes and models. to settle local var reference before assignment. settle uid and date columns
+### Develop logic for rendering json, and presenting in nice table
