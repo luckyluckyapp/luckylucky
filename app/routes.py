@@ -6,7 +6,8 @@ import re
 import datetime
 from app import app, models
 import time
-
+import pandas as pd
+import io
 
 aaa = req.get("http://www.luckyluckycatering.com/lunch-menu")
 soup = BeautifulSoup(aaa.text,'html.parser')
@@ -101,5 +102,20 @@ def get_all():
         return  jsonify([e.serialize() for e in orders])
     except Exception as e:
 	    return(str(e))
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+	if request.method == 'POST':
+		date1 = request.form.get('datetab')
+		df1 = pd.read_json("http://luckyluckyapp.herokuapp.com/getall")
+		dateconvert = pd.to_datetime(date1, format="%Y-%m-%d")
+		df2 = df1[df1["date"]==dateconvert].groupby(['name']).tail(1)
+		sum1 = sum(df2.numpack)
+
+		try:
+			return render_template('todaysorder.html', tables=[df2.to_html(classes='data', header="true")], summ = sum1)
+		except Exception as e:
+			return (str(e))
+	return render_template('admin.html')
 
 ### Develop logic for rendering json, and presenting in nice table
