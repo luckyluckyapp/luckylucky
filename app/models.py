@@ -9,7 +9,7 @@ class Orders(db.Model):
     __tablename__ = 'orders'
     uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=False)
-    numpack = db.Column(db.String(64), index=True, unique=False)
+    numpack = db.Column(db.Integer, index=True, unique=False)
     date = db.Column(db.Date, unique=False)
 
     def __init__(self, uid, date, name, numpack):
